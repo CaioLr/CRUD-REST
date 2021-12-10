@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Editar</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary" style="display: flex;">
+        
+        <a class="navbar-brand" href="/"><h3> Editar Usuário </h3></a> 
+
+    </nav>
+    
+    <br>
+
+        <div class="container">
+                <div class="form-group">
+                    <input type="hidden" name="id" id="id" value="<%= usuario.id_usuario %>" />
+                    <label for="nome">Nome</label>
+                    <input type="text" name="nome" id="nome" class="form-control form-control-md" value="<%= usuario.nome %>">   
+                </div>
+    
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" class="form-control form-control-md" value="<%= usuario.email %>"> 
+                </div>
+    
+                <div class="form-group">
+                    <input type="submit" value="Enviar" id="atualizar" class="btn btn-primary" >
+                </div>
+                
+                <div class="form-group">
+                    <input type="submit" id="deletar" value="Deletar" class="btn btn-danger">
+                </div>
+        </div>
+        
+    
+        
+</body>
+<script>
+    $(document).ready(function(){
+        
+        //Atualizada dados do usuário utilizando uma requisição put via ajax
+        $('#atualizar').click(function(){
+            const id = $('#id').val();
+            const nome = $('#nome').val();
+            const email = $('#email').val();
+
+            $.ajax({
+                url: '/usuario/' + id,
+                method: 'PUT',
+                data: {
+                    nome: nome,
+                    email: email
+                }, 
+                success: response =>{
+                    console.log(response)
+
+                    setTimeout(function(){ 
+                            alert(response);
+                            location.href = '/';
+                    }, 500);
+                }
+            });
+        });
+
+
+        //Deleta usuário utulizando uma requisição delete via ajax
+        $('#deletar').click(function(){
+            const id = $('#id').val();
+
+            $.ajax({
+                url: '/usuario/' + id,
+                method: 'DELETE',
+                success: response =>{
+                    console.log(response);
+
+                    setTimeout(function(){ 
+                            alert(response);
+                            location.href = '/';
+                    }, 500);
+                }
+            });
+        });
+    });
+</script>
+</html>
